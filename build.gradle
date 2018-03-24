@@ -1,0 +1,59 @@
+group 'com.sprintreview'
+version '0.1-SNAPSHOT'
+
+buildscript {
+  ext.tomcat_plugin_version = '2.4.2'
+  ext.tomcat_version = '9.0.4'
+  ext.kotlin_version = '1.2.30'
+  ext.ktor_version = '0.9.1'
+  repositories {
+    jcenter()
+  }
+  dependencies {
+    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+  }
+}
+
+repositories {
+  jcenter()
+  maven { url "https://dl.bintray.com/kotlin/kotlinx" }
+  maven { url "https://dl.bintray.com/kotlin/ktor" }
+}
+
+apply plugin: 'java'
+apply plugin: 'kotlin'
+apply plugin: 'application'
+
+mainClassName = 'com.sprintreview.MainKt'
+
+sourceCompatibility = 1.8
+
+compileKotlin { kotlinOptions.jvmTarget = "1.8" }
+compileTestKotlin { kotlinOptions.jvmTarget = "1.8" }
+
+kotlin { experimental { coroutines "enable" } }
+
+dependencies {
+  compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+  compile "org.jetbrains.kotlin:kotlin-runtime:$kotlin_version"
+  compile "io.ktor:ktor-server-netty:$ktor_version"
+  compile "io.ktor:ktor:$ktor_version"
+  compile "io.ktor:ktor-gson:$ktor_version"
+  compile "ch.qos.logback:logback-classic:1.2.1"
+  testCompile group: 'junit', name: 'junit', version: '4.12'
+  testCompile "io.ktor:ktor-server-test-host:$ktor_version"
+}
+
+jar {
+  manifest {
+    attributes "Main-Class": "$mainClassName"
+  }
+  zip64 = true
+  from {
+    configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+  }
+}
+
+task stage {
+  dependsOn installDist
+}

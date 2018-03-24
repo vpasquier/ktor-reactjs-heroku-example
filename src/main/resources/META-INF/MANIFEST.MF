@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Implementation-Title: sprintreview
+Implementation-Version: 0.1-SNAPSHOT
+Built-By: Sprint Review
+Implementation-Vendor-Id: com.sprintreview
+Implementation-Vendor: Sprint Review
+Main-Class: com.sprintreview.Main
+Start-Class: com.sprintreview.Main
+Created-By: Gradle
+Build-Jdk: 1.8.0_131
+Implementation-URL: https://sprintreview.io
