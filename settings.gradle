@@ -1,2 +1,3 @@
-rootProject.name = 'sprint-review-core'
-
+rootProject.name = 'sprint-review'
+include 'sprint-review-core'
+include 'sprint-review-web'
