@@ -2,7 +2,7 @@
   "name": "v-sprint-review-web",
   "version": "1.0.0",
   "description": "Sprint Review App UI",
-  "author": "Vladimir Pasquier <vpasquier@nuxeo.com>",
+  "author": "Vladimir Pasquier <vladimir.pasquier@gmail.com>",
   "private": true,
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
