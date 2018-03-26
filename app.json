@@ -2,5 +2,11 @@
   "name": "Sprint Review",
   "description": "Sprint Review",
   "image": "heroku/java",
-  "addons": [ "heroku-postgresql" ]
+  "addons": [ "heroku-postgresql" ],
+  "formation": {
+    "web": {
+      "quantity": 1,
+      "size": "free"
+    }
+  }
 }
