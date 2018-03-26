@@ -9,14 +9,19 @@ apply plugin: 'java'
 
 node {
   version = '8.10.0'
-  //npmVersion = '5.8.0'
-  yarnVersion = '1.5.1'
+  npmVersion = '5.8.0'
+  //yarnVersion = '1.5.1'
   download = true
   workDir = file("nodejs")
-  //npmWorkDir = file("${project.buildDir}/npm")
-  yarnWorkDir = file("yarn")
-  nodeModulesDir = file("node_modules")
+  npmWorkDir = file("${project.buildDir}/npm")
+  //yarnWorkDir = file("yarn")
+  //nodeModulesDir = file("node_modules")
 }
+
+//task npmRun(type: Exec) {
+//  commandLine 'npm'
+//  args = ['run', 'start']
+//}
 
 task webpack(type: NodeTask, dependsOn: 'npmInstall') {
   script = project.file('node_modules/.bin/webpack')
@@ -25,3 +30,5 @@ task webpack(type: NodeTask, dependsOn: 'npmInstall') {
 processResources.dependsOn 'webpack'
 
 clean.delete << file('node_modules')
+
+

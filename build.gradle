@@ -23,3 +23,8 @@ allprojects {
 subprojects {
   version = '0.1-SNAPSHOT'
 }
+
+task stage {
+  dependsOn ':sprint-review-core:stage'
+  dependsOn ':sprint-review-web:npmInstall'
+}
