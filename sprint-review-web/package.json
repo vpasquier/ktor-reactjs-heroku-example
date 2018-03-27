@@ -1,6 +1,6 @@
 {
   "name": "sprint-review-web",
-  "version": "0.1-SNAPSHOT",
+  "version": "1.0.0",
   "description": "Sprint Review",
   "author": "Vladimir Pasquier <vladimir.pasquier@gmail.com>",
   "private": true,
