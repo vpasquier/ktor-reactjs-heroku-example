@@ -1,1 +1,1 @@
-web: java -Dserver.port=$PORT $JAVA_OPTS -jar sprint-review-core/build/libs/sprint-review-core-0.1-SNAPSHOT.jar
+web: java -Dserver.port=$PORT $JAVA_OPTS -jar sprint-review-core/build/server/webapp-runner-*.jar sprint-review-core/build/libs/*.war
