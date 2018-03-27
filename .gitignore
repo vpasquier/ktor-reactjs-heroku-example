@@ -33,8 +33,9 @@ static
 *.jar
 *.bat
 .gradle
-/build/
 !gradle/wrapper/gradle-wrapper.jar
+
+!sprint-review-web/build
 
 ### STS ###
 .apt_generated
@@ -52,7 +53,6 @@ static
 
 ### NetBeans ###
 nbproject/private/
-build/
 nbbuild/
 dist/
 nbdist/
@@ -60,3 +60,11 @@ nbdist/
 
 ### Kotlin ###
 out
+
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln

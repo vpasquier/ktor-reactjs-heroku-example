@@ -7,6 +7,8 @@ allprojects {
     ext.kotlin_version = '1.2.30'
     ext.ktor_version = '0.9.1'
     ext.moowork_version = '1.2.0'
+    ext.runner_version = '8.5.11.3'
+    ext.logback_version = '1.2.1'
     repositories {
       jcenter()
       mavenCentral()
@@ -26,5 +28,5 @@ subprojects {
 
 task stage {
   dependsOn ':sprint-review-core:stage'
-  dependsOn ':sprint-review-web:npmInstall'
+  dependsOn ':sprint-review-web:yarn'
 }
