@@ -5,8 +5,8 @@
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
          version="3.0">
   <servlet>
-    <display-name>Ktor Hello Sample</display-name>
-    <servlet-name>KtorHelloSample</servlet-name>
+    <display-name>Sprint Review</display-name>
+    <servlet-name>sprintreview</servlet-name>
     <servlet-class>io.ktor.server.servlet.ServletApplicationEngine</servlet-class>
 
     <!-- path to application.conf file, required -->
@@ -27,7 +27,7 @@
   </servlet>
 
   <servlet-mapping>
-    <servlet-name>KtorHelloSample</servlet-name>
+    <servlet-name>sprintreview</servlet-name>
     <url-pattern>/</url-pattern>
   </servlet-mapping>
 
