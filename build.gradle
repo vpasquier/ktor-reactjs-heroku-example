@@ -28,5 +28,5 @@ subprojects {
 
 task stage {
   dependsOn ':sprint-review-core:stage'
-  dependsOn ':sprint-review-web:yarn'
+  //dependsOn ':sprint-review-web:yarn'
 }
