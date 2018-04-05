@@ -9,7 +9,7 @@ apply plugin: 'kotlin'
 apply plugin: 'application'
 apply plugin: 'war'
 
-mainClassName = 'com.sprintreview.MainKt'
+mainClassName = 'com.sprintreview.ServerKt'
 
 sourceCompatibility = 1.8
 
