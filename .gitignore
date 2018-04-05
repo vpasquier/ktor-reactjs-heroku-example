@@ -28,6 +28,7 @@ instance.clid
 node_modules
 build
 static
+!sprint-review-core/src/main/resources/static
 *.bin
 *.lock
 *.jar
