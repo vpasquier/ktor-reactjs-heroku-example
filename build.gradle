@@ -31,5 +31,5 @@ task clean {
 }
 
 task stage {
-  dependsOn clean, ':sprint-review-client:yarn', ':sprint-review-server:stage'
+  dependsOn clean, ':sprint-review-client:yarn', ':sprint-review-client:generate', ':sprint-review-server:stage'
 }

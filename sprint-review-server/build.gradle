@@ -60,3 +60,4 @@ task stage {
 }
 
 clean.delete << file('src/main/resources/static')
+clean.delete << file('../target')

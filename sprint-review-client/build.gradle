@@ -18,12 +18,13 @@ node {
   nodeModulesDir = file("node_modules")
 }
 
-task webpack(type: NodeTask, dependsOn: 'npmInstall') {
-  script = project.file('node_modules/.bin/webpack')
+task generate(type: NodeTask, dependsOn: 'yarn_install') {
+  script = file('./node_modules/.bin/nuxt')
+  args = ['generate']
 }
 
-task generate(type: NodeTask, dependsOn: 'yarn') {
-  
+task webpack(type: NodeTask, dependsOn: 'npmInstall') {
+  script = project.file('node_modules/.bin/webpack')
 }
 
 processResources.dependsOn 'webpack'
