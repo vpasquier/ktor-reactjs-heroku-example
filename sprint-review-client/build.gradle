@@ -18,7 +18,7 @@ node {
   nodeModulesDir = file("node_modules")
 }
 
-task generate(type: NodeTask, dependsOn: 'yarn_install') {
+task generate(type: NodeTask, dependsOn: 'npmInstall') {
   script = file('./node_modules/.bin/nuxt')
   args = ['generate']
 }

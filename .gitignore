@@ -33,6 +33,7 @@ static
 *.jar
 *.bat
 .gradle
+.nuxt
 !gradle/wrapper/gradle-wrapper.jar
 
 !sprint-review-web/build
