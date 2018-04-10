@@ -1,0 +1,31 @@
+buildscript {
+  dependencies {
+    classpath "com.moowork.gradle:gradle-node-plugin:$moowork_version"
+  }
+}
+
+apply plugin: 'com.moowork.node'
+apply plugin: 'java'
+
+node {
+  version = '8.10.0'
+  npmVersion = '5.8.0'
+  yarnVersion = '1.5.1'
+  download = true
+  workDir = file("nodejs")
+  npmWorkDir = file("${project.buildDir}/npm")
+  yarnWorkDir = file("yarn")
+  nodeModulesDir = file("node_modules")
+}
+
+task webpack(type: NodeTask, dependsOn: 'npmInstall') {
+  script = project.file('node_modules/.bin/webpack')
+}
+
+task generate(type: NodeTask, dependsOn: 'yarn') {
+  
+}
+
+processResources.dependsOn 'webpack'
+
+clean.delete << file('node_modules')

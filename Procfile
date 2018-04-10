@@ -1,1 +1,1 @@
-web: java $JAVA_OPTS -jar sprint-review-core/build/server/webapp-runner-*.jar --port $PORT sprint-review-core/build/libs/*.war
+web: java $JAVA_OPTS -jar sprint-review-server/build/server/webapp-runner-*.jar --port $PORT sprint-review-server/build/libs/*.war

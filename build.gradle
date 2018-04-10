@@ -26,7 +26,10 @@ subprojects {
   version = '0.1-SNAPSHOT'
 }
 
+task clean {
+  dependsOn ':sprint-review-client:clean', ':sprint-review-server:clean'
+}
+
 task stage {
-  dependsOn ':sprint-review-core:stage'
-  //dependsOn ':sprint-review-web:yarn'
+  dependsOn clean, ':sprint-review-client:yarn', ':sprint-review-server:stage'
 }
