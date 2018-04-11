@@ -36,7 +36,9 @@ static
 .nuxt
 !gradle/wrapper/gradle-wrapper.jar
 
-!sprint-review-web/build
+!sprint-review-client/yarn/yarn-v1.5.1/lib/node_modules
+
+!sprint-review-client/build
 
 ### STS ###
 .apt_generated
