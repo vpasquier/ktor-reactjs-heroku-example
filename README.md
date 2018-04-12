@@ -5,11 +5,11 @@
 
 ## Architecture
 
-The website will be in Kotlin/VueJS using mongodb
+The website is in Kotlin/VueJS using mongodb
 
 ## Infrastructure
 
-The website will be hosted on Heroku
+The website is hosted on Heroku
 
 ## Build
 
@@ -18,7 +18,7 @@ From GitHub:
 ```
 $ git clone git@github.com:vpasquier/sprint-review.git
 $ cd sprint-review
-$ gradle install
+$ gradle stage
 ```
 
 ## Reporting issues
