@@ -1,6 +1,7 @@
 # Sprint Review
 
 [![Join the chat at https://gitter.im/v-sprint-review/Lobby](https://badges.gitter.im/v-sprint-review/Lobby.svg)](https://gitter.im/v-sprint-review/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Build Status](https://travis-ci.org/vpasquier/sprint-review.svg?branch=master)](https://travis-ci.org/vpasquier/sprint-review)
 
 ## Architecture
 
