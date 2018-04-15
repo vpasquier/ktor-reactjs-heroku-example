@@ -40,6 +40,8 @@ static
 
 !sprint-review-client/build
 
+sprint-review-client/nodejs
+
 ### STS ###
 .apt_generated
 .classpath
