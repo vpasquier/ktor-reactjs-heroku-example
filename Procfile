@@ -1,1 +1,1 @@
-web: java $JAVA_OPTS -jar sprint-review-server/build/server/webapp-runner-*.jar --port $PORT sprint-review-server/build/libs/*.war
+web: java -Dredishost=${REDIS_HOST} -Dredispwd=${REDIS_PWD} -Dredisport=${REDIS_PORT} $JAVA_OPTS -jar sprint-review-server/build/server/webapp-runner-*.jar --port $PORT --session-store redis --context-xml sprint-review-server/src/main/webapp/META-INF/context.xml sprint-review-server/build/libs/*.war

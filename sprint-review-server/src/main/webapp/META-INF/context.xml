@@ -1,3 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 <Context allowCasualMultipartParsing="true">
+  <Manager className="ru.zinin.redis.session.RedisManager" redisHostname="${redishost}" redisPassword="${redispwd}"
+           redisPort="${redisport}"/>
 </Context>
