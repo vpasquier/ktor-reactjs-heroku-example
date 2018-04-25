@@ -27,8 +27,12 @@ dependencies {
   compile "io.ktor:ktor-gson:$ktor_version"
   compile "com.github.jsimone:webapp-runner:$runner_version"
   compile "ch.qos.logback:logback-classic:$logback_version"
-  testCompile group: 'junit', name: 'junit', version: '4.12'
   testCompile "io.ktor:ktor-server-test-host:$ktor_version"
+}
+
+configurations {
+  testOutput.extendsFrom(testCompile)
+  boot
 }
 
 jar {
@@ -39,6 +43,11 @@ jar {
   from {
     configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
   }
+}
+
+sourceSets {
+  main.kotlin.srcDirs += "src/main/kotlin"
+  test.kotlin.srcDirs += "src/test/kotlin"
 }
 
 task copyToLib(type: Copy) {

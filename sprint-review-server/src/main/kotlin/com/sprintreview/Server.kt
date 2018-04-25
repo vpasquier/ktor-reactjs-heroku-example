@@ -1,5 +1,8 @@
 package com.sprintreview
 
+import com.sprintreview.constants.Constants
+import com.sprintreview.constants.Constants.Companion.RESOURCE_PATH
+import com.sprintreview.constants.Endpoints.Companion.SMOKE
 import io.ktor.application.Application
 import io.ktor.application.call
 import io.ktor.content.defaultResource
@@ -24,10 +27,10 @@ fun main(args: Array<String>) {
 }
 
 fun Application.server() {
-  val staticFilesDir = File("src/main/resources/static")
+  val staticFilesDir = File(RESOURCE_PATH)
   routing {
-    get("/plain") {
-      call.respondText("Hello Plain!", ContentType.Text.Plain)
+    get(SMOKE) {
+      call.respondText(Constants.SMOKE_TEST, ContentType.Text.Plain)
     }
     static {
       staticBasePackage = "static"
@@ -38,3 +41,4 @@ fun Application.server() {
     }
   }
 }
+
