@@ -9,5 +9,5 @@ os:
   - linux
 
 script:
-  - ./gradlew test
+  - ./gradlew test --info
   - ./gradlew stage
