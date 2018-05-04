@@ -9,5 +9,5 @@ os:
   - linux
 
 script:
-  - ./gradlew test --info
-  - ./gradlew stage
+  - ./gradlew test --info || travis_terminate 1
+  - ./gradlew stage || travis_terminate 1
