@@ -28,6 +28,8 @@ dependencies {
   compile "com.github.jsimone:webapp-runner:$runner_version"
   compile "ch.qos.logback:logback-classic:$logback_version"
   testCompile "io.ktor:ktor-server-test-host:$ktor_version"
+  testCompile "com.github.fakemongo:fongo:2.1.0"
+  compile "org.litote.kmongo:kmongo:3.6.3"
 }
 
 configurations {
