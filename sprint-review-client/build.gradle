@@ -9,18 +9,16 @@ apply plugin: 'java'
 
 node {
   version = '8.10.0'
-  npmVersion = '5.8.0'
   yarnVersion = '1.5.1'
   download = true
   workDir = file("nodejs")
-  npmWorkDir = file("${project.buildDir}/npm")
   yarnWorkDir = file("yarn")
-  nodeModulesDir = file("node_modules")
 }
 
 task generate(type: NodeTask, dependsOn: 'yarn_install') {
-  script = file('./node_modules/.bin/nuxt')
-  args = ['generate']
+  script = file('./node_modules/.bin/react-scripts')
+  args = ['build']
 }
 
 clean.delete << file('node_modules')
+clean.delete << file('nodejs')
