@@ -58,7 +58,7 @@ task copyToLib(type: Copy) {
 }
 
 task deployWeb(type: Copy) {
-  from fileTree("../sprint-review-client/dist")
+  from fileTree("../sprint-review-client/build")
   into "src/main/resources/static"
 }
 
