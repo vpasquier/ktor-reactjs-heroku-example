@@ -16,6 +16,8 @@
  */
 package com.sprintreview
 
+import com.sprintreview.constants.Configuration
+import com.sprintreview.constants.Configuration.Companion.MONGODB_LOCAL
 import com.sprintreview.constants.Constants.Companion.INDEX
 import com.sprintreview.constants.Constants.Companion.MODULE_SERVER
 import com.sprintreview.constants.Constants.Companion.PORT
@@ -25,6 +27,7 @@ import com.sprintreview.constants.Constants.Companion.RESOURCE_STATIC
 import com.sprintreview.constants.Constants.Companion.SMOKE_TEST
 import com.sprintreview.constants.Endpoints.Companion.ROOT
 import com.sprintreview.constants.Endpoints.Companion.SMOKE
+import com.sprintreview.persistence.Mongo
 import io.ktor.application.Application
 import io.ktor.application.call
 import io.ktor.application.install
@@ -40,6 +43,8 @@ import io.ktor.routing.routing
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
 
+lateinit var mongo: Mongo
+
 fun main(args: Array<String>) {
   val portVar: String = System.getenv(PORT) ?: PORT_VALUE
   embeddedServer(Netty, watchPaths = listOf(MODULE_SERVER),
@@ -50,9 +55,18 @@ fun main(args: Array<String>) {
 
 fun Application.server() {
   install(DefaultHeaders)
-//  install(CallLogging)
+  // install(CallLogging)
   routing {
-    //    trace { application.log.trace(it.buildText()) }
+    // trace { application.log.trace(it.buildText()) }
+    endpoints()
+    staticContent()
+  }
+  mongoInit()
+}
+
+fun Application.tomcat() {
+  install(DefaultHeaders)
+  routing {
     endpoints()
     staticContent()
   }
@@ -78,4 +92,12 @@ fun Route.staticContent() {
 //      resources("static")
 //    }
   }
+}
+
+fun mongoInit(localUrl: String = MONGODB_LOCAL) {
+  val uri: String = System.getenv(Configuration.MONGODB_URI) ?: localUrl
+  val username: String? = System.getenv(Configuration.MONGODB_USERNAME) ?: null
+  val password: String? = System.getenv(Configuration.MONGODB_PASSWORD) ?: null
+  mongo = Mongo(uri, username, password)
+  mongo.punch()
 }

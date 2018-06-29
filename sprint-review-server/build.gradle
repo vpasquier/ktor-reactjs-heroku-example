@@ -27,7 +27,10 @@ dependencies {
   compile "io.ktor:ktor-gson:$ktor_version"
   compile "com.github.jsimone:webapp-runner:$runner_version"
   compile "ch.qos.logback:logback-classic:$logback_version"
+  compile "org.litote.kmongo:kmongo:$kmongo_version"
   testCompile "io.ktor:ktor-server-test-host:$ktor_version"
+  testCompile "com.willowtreeapps.assertk:assertk:$assertk_version"
+  testCompile "org.testcontainers:testcontainers:$testcontainers_version"
 }
 
 configurations {

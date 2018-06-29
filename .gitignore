@@ -1,6 +1,8 @@
 .tmp
+logs.txt
 target
 .classpath
+data
 .project
 npm-debug.log
 .settings/
