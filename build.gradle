@@ -9,6 +9,9 @@ allprojects {
     ext.moowork_version = '1.2.0'
     ext.runner_version = '8.5.30.0'
     ext.logback_version = '1.2.1'
+    ext.kmongo_version = '3.7.0'
+    ext.assertk_version = '0.10'
+    ext.testcontainers_version = '1.8.0'
     repositories {
       jcenter()
       mavenCentral()
