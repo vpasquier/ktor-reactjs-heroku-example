@@ -48,7 +48,7 @@ lateinit var mongo: Mongo
 fun main(args: Array<String>) {
   val portVar: String = System.getenv(PORT) ?: PORT_VALUE
   embeddedServer(Netty, watchPaths = listOf(MODULE_SERVER),
-          port = portVar.toInt(), module = Application::server).apply {
+          port = portVar.toInt(), module = Application::tomcat).apply {
     start(wait = true)
   }
 }
