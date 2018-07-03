@@ -19,11 +19,9 @@ package com.sprintreview.constants
 class Configuration {
   companion object {
     const val MONGODB_URI = "MONGODB_URI"
-    const val MONGODB_USERNAME = "MONGODB_USERNAME"
-    const val MONGODB_PASSWORD = "MONGODB_PASSWORD"
     const val MONGODB_NAME = "MONGODB_DATABASE"
     const val MONGODB_LOCAL = "localhost:27017"
-    const val MONGODB_TEST_VERSION = "mongo:3.2"
+    const val MONGODB_TEST_VERSION = "mongo:3.6"
     const val MONGODB_TEST_PORT = 27017
   }
 }

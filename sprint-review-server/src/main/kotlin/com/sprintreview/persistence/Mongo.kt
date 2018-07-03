@@ -17,27 +17,24 @@
 package com.sprintreview.persistence
 
 import com.mongodb.MongoClient
-import com.mongodb.MongoCredential
+import com.mongodb.MongoClientURI
 import com.mongodb.ServerAddress
 import com.mongodb.client.MongoCollection
 import com.mongodb.client.MongoDatabase
 import com.sprintreview.constants.Configuration
-import com.sprintreview.constants.Configuration.Companion.MONGODB_NAME
 import org.litote.kmongo.KMongo
 import org.litote.kmongo.getCollection
 
-class Mongo(uri: String?, username: String?, password: String?) {
+class Mongo(uri: String?) {
 
-  private val client: MongoClient
+  private var client: MongoClient
   private val database: MongoDatabase
   val sprintCollection: MongoCollection<Sprint>
 
   init {
-    if (username != null && password != null) {
-      val credentials = MongoCredential.createCredential(username, MONGODB_NAME, password.toCharArray())
-      val listCredential: MutableList<MongoCredential> = mutableListOf(credentials)
-      client = KMongo.createClient(ServerAddress(uri), listCredential)
-    } else {
+    try {
+      client = KMongo.createClient(MongoClientURI(uri))
+    } catch (e: IllegalArgumentException) {
       client = KMongo.createClient(ServerAddress(uri))
     }
     val name: String? = System.getenv(Configuration.MONGODB_NAME) ?: "sprintreview"
