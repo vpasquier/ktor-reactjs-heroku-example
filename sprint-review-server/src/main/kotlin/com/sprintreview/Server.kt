@@ -96,8 +96,6 @@ fun Route.staticContent() {
 
 fun mongoInit(localUrl: String = MONGODB_LOCAL) {
   val uri: String = System.getenv(Configuration.MONGODB_URI) ?: localUrl
-  val username: String? = System.getenv(Configuration.MONGODB_USERNAME) ?: null
-  val password: String? = System.getenv(Configuration.MONGODB_PASSWORD) ?: null
-  mongo = Mongo(uri, username, password)
+  mongo = Mongo(uri)
   mongo.punch()
 }
