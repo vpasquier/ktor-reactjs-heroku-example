@@ -20,18 +20,25 @@ import assertk.assert
 import assertk.assertions.isEqualTo
 import assertk.assertions.isNotNull
 import assertk.assertions.isTrue
+import com.beust.klaxon.Klaxon
 import com.sprintreview.constants.Configuration.Companion.MONGODB_TEST_PORT
 import com.sprintreview.constants.Configuration.Companion.MONGODB_TEST_VERSION
 import com.sprintreview.constants.Constants.Companion.SMOKE_TEST
+import com.sprintreview.constants.Endpoints.Companion.QUERY
 import com.sprintreview.constants.Endpoints.Companion.SMOKE
 import com.sprintreview.mongo
 import com.sprintreview.mongoInit
-import com.sprintreview.persistence.Sprint
+import com.sprintreview.persistence.Jedi
+import com.sprintreview.persistence.Result
+import com.sprintreview.persistence.Results
 import com.sprintreview.tomcat
 import io.ktor.application.Application
+import io.ktor.http.ContentType
+import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpMethod
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.testing.handleRequest
+import io.ktor.server.testing.setBody
 import io.ktor.server.testing.withTestApplication
 import org.junit.AfterClass
 import org.junit.BeforeClass
@@ -49,6 +56,7 @@ class SmokeTest {
   companion object {
     @get:ClassRule
     val mongoContainer = KGenericContainer(MONGODB_TEST_VERSION).withExposedPorts(MONGODB_TEST_PORT)
+    //val esContainer = KGenericContainer(ES_TEST_VERSION).withExposedPorts(ES_TEST_PORT)
 
     @BeforeClass
     @JvmStatic
@@ -81,9 +89,36 @@ class SmokeTest {
 
   @Test
   fun iCanHitMongo() {
-    val luke: Sprint? = mongo.sprintCollection.findOne(Sprint::name eq "Luke Skywalker")
+    val luke: Jedi? = mongo.sprintCollection.findOne(Jedi::name eq "Luke Skywalker")
     assert(luke).isNotNull()
     assert(luke!!.age).isEqualTo(19)
+  }
+
+  @Test
+  fun iCanUseGraphQL() = withTestApplication(Application::tomcat) {
+    // Just to fetch one entry
+    with(handleRequest(HttpMethod.Post, QUERY) {
+      addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+      setBody("{\"query\":\"{jedis{age}}\"}")
+    }) {
+      assertk.assert(response.status()).isEqualTo(io.ktor.http.HttpStatusCode.OK)
+      val results = Klaxon().parse<Results>(response.content!!)
+      val data = results!!.data
+      val jedis = data.jedis
+      assertk.assert(jedis!!.size).isEqualTo(2)
+      assertk.assert(jedis!![0].age).isEqualTo(17)
+    }
+    // Just to run a simple query
+    with(handleRequest(HttpMethod.Post, QUERY) {
+      addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+      setBody("{\"query\":\"{jedi(phase:\\\"adult\\\"){name}}\"}")
+    }) {
+      assertk.assert(response.status()).isEqualTo(io.ktor.http.HttpStatusCode.OK)
+      val result = Klaxon().parse<Result>(response.content!!)
+      val data = result!!.data
+      val jedi = data.jedi
+      assertk.assert(jedi!!.name).isEqualTo("Leila")
+    }
   }
 
 }

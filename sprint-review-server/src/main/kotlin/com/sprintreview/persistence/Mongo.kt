@@ -29,7 +29,7 @@ class Mongo(uri: String?) {
 
   private var client: MongoClient
   private val database: MongoDatabase
-  val sprintCollection: MongoCollection<Sprint>
+  val sprintCollection: MongoCollection<Jedi>
 
   init {
     try {
@@ -52,7 +52,7 @@ class Mongo(uri: String?) {
   }
 
   private fun injectSprint() {
-    sprintCollection.insertOne(Sprint("Luke Skywalker", 19))
+    sprintCollection.insertOne(luke)
   }
 }
 
