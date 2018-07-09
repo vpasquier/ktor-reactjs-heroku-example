@@ -16,4 +16,40 @@
  */
 package com.sprintreview.persistence
 
-data class Sprint(val name: String, val age: Int)
+import com.github.pgutkowski.kgraphql.KGraphQL
+
+data class Jedi(var name: String = "default", var age: Int = 0)
+
+data class GraphQLQuery(val query: String = "", val variables: Map<String, Any> = emptyMap())
+
+// FIXME with issues 160 Klaxon
+//data class Results<T>(val data: List<T>)
+//data class Result<T>(val data: T)
+
+data class ListData(val jedis: List<Jedi>)
+data class Data(val jedi: Jedi)
+data class Results(val data: ListData)
+data class Result(val data: Data)
+
+val luke = Jedi("Luke Skywalker", 17)
+val leila = Jedi("Leila", 56)
+
+val schema = KGraphQL.schema {
+  type<Jedi> {}
+  configure {
+    useDefaultPrettyPrinter = true
+  }
+  query("jedis") {
+    resolver { -> listOf(luke, leila) }
+  }
+  query("jedi") {
+    resolver { phase: String ->
+      when (phase) {
+        "adult" -> leila
+        else -> luke
+      }
+    }.withArgs {
+      arg<String> { name = "phase"; defaultValue = "young"; description = "The phase of the jedi" }
+    }
+  }
+}

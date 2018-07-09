@@ -22,6 +22,7 @@ class Configuration {
     const val MONGODB_NAME = "MONGODB_DATABASE"
     const val MONGODB_LOCAL = "localhost:27017"
     const val MONGODB_TEST_VERSION = "mongo:3.6"
+    const val ES_TEST_VERSION = "elasticsearch:latest"
     const val MONGODB_TEST_PORT = 27017
   }
 }

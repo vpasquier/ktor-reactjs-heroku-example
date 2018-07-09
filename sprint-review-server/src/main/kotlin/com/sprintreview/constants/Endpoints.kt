@@ -19,6 +19,7 @@ package com.sprintreview.constants
 class Endpoints {
   companion object {
     const val SMOKE = "/smoke"
+    const val QUERY = "/query"
     const val ROOT = "/"
     const val WILDCARD = "{...}"
   }

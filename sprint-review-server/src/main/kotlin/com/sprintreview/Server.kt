@@ -16,6 +16,7 @@
  */
 package com.sprintreview
 
+import com.beust.klaxon.Klaxon
 import com.sprintreview.constants.Configuration
 import com.sprintreview.constants.Configuration.Companion.MONGODB_LOCAL
 import com.sprintreview.constants.Constants.Companion.INDEX
@@ -25,20 +26,27 @@ import com.sprintreview.constants.Constants.Companion.PORT_VALUE
 import com.sprintreview.constants.Constants.Companion.REMOTE_STATIC
 import com.sprintreview.constants.Constants.Companion.RESOURCE_STATIC
 import com.sprintreview.constants.Constants.Companion.SMOKE_TEST
+import com.sprintreview.constants.Endpoints.Companion.QUERY
 import com.sprintreview.constants.Endpoints.Companion.ROOT
 import com.sprintreview.constants.Endpoints.Companion.SMOKE
+import com.sprintreview.persistence.GraphQLQuery
 import com.sprintreview.persistence.Mongo
+import com.sprintreview.persistence.schema
 import io.ktor.application.Application
 import io.ktor.application.call
 import io.ktor.application.install
 import io.ktor.content.resource
 import io.ktor.content.resources
 import io.ktor.content.static
+import io.ktor.features.ContentNegotiation
 import io.ktor.features.DefaultHeaders
+import io.ktor.gson.gson
 import io.ktor.http.ContentType
+import io.ktor.request.receive
 import io.ktor.response.respondText
 import io.ktor.routing.Route
 import io.ktor.routing.get
+import io.ktor.routing.post
 import io.ktor.routing.routing
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
@@ -54,27 +62,46 @@ fun main(args: Array<String>) {
 }
 
 fun Application.server() {
-  install(DefaultHeaders)
-  // install(CallLogging)
-  routing {
-    // trace { application.log.trace(it.buildText()) }
-    endpoints()
-    staticContent()
-  }
+  default()
   mongoInit()
 }
 
 fun Application.tomcat() {
+  default()
+}
+
+fun Application.default() {
+  //logging()
   install(DefaultHeaders)
+  install(ContentNegotiation) {
+    gson {
+      setPrettyPrinting()
+    }
+  }
   routing {
+    // traceHTTP()
     endpoints()
     staticContent()
   }
 }
 
+
+fun logging() {
+  //install(CallLogging)
+}
+
+fun traceHTTP() {
+  // trace { application.log.trace(it.buildText()) }
+}
+
+
 fun Route.endpoints() {
   get(SMOKE) {
     call.respondText(SMOKE_TEST, ContentType.Text.Plain)
+  }
+  post(QUERY) {
+    val request = call.receive<GraphQLQuery>()
+    call.respondText(schema.execute(request.query, Klaxon().toJsonString(request.variables)), ContentType.Application.Json)
   }
 }
 
