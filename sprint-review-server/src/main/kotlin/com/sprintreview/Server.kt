@@ -38,10 +38,13 @@ import io.ktor.application.install
 import io.ktor.content.resource
 import io.ktor.content.resources
 import io.ktor.content.static
+import io.ktor.features.CORS
 import io.ktor.features.ContentNegotiation
 import io.ktor.features.DefaultHeaders
 import io.ktor.gson.gson
 import io.ktor.http.ContentType
+import io.ktor.http.HttpHeaders
+import io.ktor.http.HttpMethod
 import io.ktor.request.receive
 import io.ktor.response.respondText
 import io.ktor.routing.Route
@@ -50,6 +53,7 @@ import io.ktor.routing.post
 import io.ktor.routing.routing
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
+import java.time.Duration
 
 lateinit var mongo: Mongo
 
@@ -72,6 +76,18 @@ fun Application.tomcat() {
 
 fun Application.default() {
   //logging()
+  install(CORS)
+  {
+    method(HttpMethod.Options)
+    header(HttpHeaders.XForwardedProto)
+    anyHost()
+    // host("my-host")
+    // host("my-host:80")
+    // host("my-host", subDomains = listOf("www"))
+    // host("my-host", schemes = listOf("http", "https"))
+    allowCredentials = true
+    maxAge = Duration.ofDays(1)
+  }
   install(DefaultHeaders)
   install(ContentNegotiation) {
     gson {
