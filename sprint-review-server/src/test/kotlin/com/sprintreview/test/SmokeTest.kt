@@ -21,17 +21,19 @@ import assertk.assertions.isEqualTo
 import assertk.assertions.isNotNull
 import assertk.assertions.isTrue
 import com.beust.klaxon.Klaxon
+import com.sprintreview.*
+import com.sprintreview.constants.Configuration.Companion.ES_HTTP
+import com.sprintreview.constants.Configuration.Companion.ES_TEST_PORT
+import com.sprintreview.constants.Configuration.Companion.ES_TEST_VERSION
 import com.sprintreview.constants.Configuration.Companion.MONGODB_TEST_PORT
 import com.sprintreview.constants.Configuration.Companion.MONGODB_TEST_VERSION
 import com.sprintreview.constants.Constants.Companion.SMOKE_TEST
 import com.sprintreview.constants.Endpoints.Companion.QUERY
 import com.sprintreview.constants.Endpoints.Companion.SMOKE
-import com.sprintreview.mongo
-import com.sprintreview.mongoInit
+import com.sprintreview.persistence.ES
 import com.sprintreview.persistence.Jedi
 import com.sprintreview.persistence.Result
 import com.sprintreview.persistence.Results
-import com.sprintreview.tomcat
 import io.ktor.application.Application
 import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
@@ -47,16 +49,21 @@ import org.junit.Test
 import org.litote.kmongo.eq
 import org.litote.kmongo.findOne
 import org.testcontainers.containers.GenericContainer
+import org.testcontainers.images.builder.ImageFromDockerfile
 
 
 class SmokeTest {
 
   class KGenericContainer(imageName: String) : GenericContainer<KGenericContainer>(imageName)
+  class KGenericContainerFromFile(dockerfile: ImageFromDockerfile) : GenericContainer<KGenericContainerFromFile>(dockerfile)
 
   companion object {
     @get:ClassRule
     val mongoContainer = KGenericContainer(MONGODB_TEST_VERSION).withExposedPorts(MONGODB_TEST_PORT)
-    //val esContainer = KGenericContainer(ES_TEST_VERSION).withExposedPorts(ES_TEST_PORT)
+    val esContainer = KGenericContainerFromFile(ImageFromDockerfile()
+            .withFileFromClasspath("elasticsearch.yml", "es/elasticsearch.yml")
+            .withFileFromClasspath("Dockerfile", "es/Dockerfile"))
+            .withExposedPorts(ES_TEST_PORT.toInt())
 
     @BeforeClass
     @JvmStatic
@@ -66,12 +73,18 @@ class SmokeTest {
       val mongoPORT = mongoContainer.firstMappedPort ?: MONGODB_TEST_PORT
       mongoInit("$mongoURL:$mongoPORT")
       mongo.punch()
+
+      Companion.esContainer.start()
+      val esHost = esContainer.containerIpAddress ?: ES_TEST_VERSION
+      val esPORT = esContainer.firstMappedPort ?: ES_TEST_PORT
+      esInit(esHost, esPORT.toString(), ES_HTTP)
     }
 
     @AfterClass
     @JvmStatic
     fun tearDown() {
       Companion.mongoContainer.stop()
+      Companion.esContainer.stop()
     }
   }
 
@@ -92,6 +105,12 @@ class SmokeTest {
     val luke: Jedi? = mongo.sprintCollection.findOne(Jedi::name eq "Luke Skywalker")
     assert(luke).isNotNull()
     assert(luke!!.age).isEqualTo(19)
+  }
+
+  @Test
+  fun iCanHitES() {
+    val clusterHealth: ES.ClusterHealth = es.checkInfos()!!
+    assert(clusterHealth.status).isEqualTo("green")
   }
 
   @Test
