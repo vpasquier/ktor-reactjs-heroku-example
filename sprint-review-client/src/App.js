@@ -2,9 +2,12 @@ import React, {Component} from 'react';
 import logo from './logo.svg';
 import './App.css';
 import axios from 'axios';
+import runtimeEnv from '@mars/heroku-js-runtime-env';
+
+const env = runtimeEnv();
 
 const axiosSR = axios.create({
-  baseURL: 'http://localhost:8080',
+  baseURL: env.HEROKU_URL ? env.HEROKU_URL : 'http://localhost:8080',
 });
 
 const GET_ADULT = `
