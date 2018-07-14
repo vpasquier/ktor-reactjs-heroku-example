@@ -29,7 +29,7 @@ dependencies {
   compile "ch.qos.logback:logback-classic:$logback_version"
   compile "org.litote.kmongo:kmongo:$kmongo_version"
   compile "com.github.pgutkowski:kgraphql:$kgraphql_version"
-  compile "org.elasticsearch:elasticsearch:$es_version"
+  compile "org.elasticsearch.client:transport:$es_version"
   testCompile "io.ktor:ktor-server-test-host:$ktor_version"
   testCompile "com.willowtreeapps.assertk:assertk:$assertk_version"
   testCompile "org.testcontainers:testcontainers:$testcontainers_version"

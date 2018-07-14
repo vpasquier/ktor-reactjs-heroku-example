@@ -18,6 +18,9 @@ package com.sprintreview
 
 import com.beust.klaxon.Klaxon
 import com.sprintreview.constants.Configuration
+import com.sprintreview.constants.Configuration.Companion.ES_HOST
+import com.sprintreview.constants.Configuration.Companion.ES_HTTP
+import com.sprintreview.constants.Configuration.Companion.ES_TEST_PORT
 import com.sprintreview.constants.Configuration.Companion.MONGODB_LOCAL
 import com.sprintreview.constants.Constants.Companion.INDEX
 import com.sprintreview.constants.Constants.Companion.MODULE_SERVER
@@ -29,6 +32,7 @@ import com.sprintreview.constants.Constants.Companion.SMOKE_TEST
 import com.sprintreview.constants.Endpoints.Companion.QUERY
 import com.sprintreview.constants.Endpoints.Companion.ROOT
 import com.sprintreview.constants.Endpoints.Companion.SMOKE
+import com.sprintreview.persistence.ES
 import com.sprintreview.persistence.GraphQLQuery
 import com.sprintreview.persistence.Mongo
 import com.sprintreview.persistence.schema
@@ -54,8 +58,10 @@ import io.ktor.routing.routing
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
 import java.time.Duration
+import java.util.function.IntConsumer
 
 lateinit var mongo: Mongo
+lateinit var es: ES
 
 fun main(args: Array<String>) {
   val portVar: String = System.getenv(PORT) ?: PORT_VALUE
@@ -68,6 +74,7 @@ fun main(args: Array<String>) {
 fun Application.server() {
   default()
   mongoInit()
+  // esInit()
 }
 
 fun Application.tomcat() {
@@ -141,4 +148,12 @@ fun mongoInit(localUrl: String = MONGODB_LOCAL) {
   val uri: String = System.getenv(Configuration.MONGODB_URI) ?: localUrl
   mongo = Mongo(uri)
   mongo.punch()
+}
+
+fun esInit(host: String = ES_HOST, port: String = ES_TEST_PORT, method: String = ES_HTTP) {
+  val host: String = System.getenv(Configuration.ES_HOST_VAR) ?: host
+  val port: String = System.getenv(Configuration.ES_PORT_VAR) ?: port
+  val method: String = System.getenv(Configuration.ES_METHOD_VAR) ?: method
+  es = ES(host, port, method)
+  es.checkInfos()
 }
