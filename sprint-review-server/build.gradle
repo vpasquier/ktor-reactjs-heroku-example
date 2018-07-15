@@ -25,6 +25,8 @@ dependencies {
   compile "io.ktor:ktor-server-servlet:$ktor_version"
   compile "io.ktor:ktor:$ktor_version"
   compile "io.ktor:ktor-gson:$ktor_version"
+  compile "io.ktor:ktor-auth:$ktor_version"
+  compile "io.ktor:ktor-locations:$ktor_version"
   compile "com.github.jsimone:webapp-runner:$runner_version"
   compile "ch.qos.logback:logback-classic:$logback_version"
   compile "org.litote.kmongo:kmongo:$kmongo_version"

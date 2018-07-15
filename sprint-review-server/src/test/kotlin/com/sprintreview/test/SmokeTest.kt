@@ -104,7 +104,7 @@ class SmokeTest {
   fun iCanHitMongo() {
     val luke: Jedi? = mongo.sprintCollection.findOne(Jedi::name eq "Luke Skywalker")
     assert(luke).isNotNull()
-    assert(luke!!.age).isEqualTo(19)
+    assert(luke!!.age).isEqualTo(17)
   }
 
   @Test

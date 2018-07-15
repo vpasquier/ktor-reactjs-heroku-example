@@ -39,6 +39,7 @@ import com.sprintreview.persistence.schema
 import io.ktor.application.Application
 import io.ktor.application.call
 import io.ktor.application.install
+import io.ktor.auth.*
 import io.ktor.content.resource
 import io.ktor.content.resources
 import io.ktor.content.static
@@ -49,6 +50,9 @@ import io.ktor.gson.gson
 import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpMethod
+import io.ktor.locations.Location
+import io.ktor.locations.Locations
+import io.ktor.locations.get
 import io.ktor.request.receive
 import io.ktor.response.respondText
 import io.ktor.routing.Route
@@ -58,10 +62,6 @@ import io.ktor.routing.routing
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
 import java.time.Duration
-import java.util.function.IntConsumer
-
-lateinit var mongo: Mongo
-lateinit var es: ES
 
 fun main(args: Array<String>) {
   val portVar: String = System.getenv(PORT) ?: PORT_VALUE
@@ -74,7 +74,6 @@ fun main(args: Array<String>) {
 fun Application.server() {
   default()
   mongoInit()
-  // esInit()
 }
 
 fun Application.tomcat() {
@@ -82,16 +81,12 @@ fun Application.tomcat() {
 }
 
 fun Application.default() {
-  //logging()
+  install(Locations)
   install(CORS)
   {
     method(HttpMethod.Options)
     header(HttpHeaders.XForwardedProto)
     anyHost()
-    // host("my-host")
-    // host("my-host:80")
-    // host("my-host", subDomains = listOf("www"))
-    // host("my-host", schemes = listOf("http", "https"))
     allowCredentials = true
     maxAge = Duration.ofDays(1)
   }
@@ -101,6 +96,18 @@ fun Application.default() {
       setPrettyPrinting()
     }
   }
+  install(Authentication) {
+    basic {
+      realm = "ktor"
+      validate { credentials ->
+        if (credentials.name == credentials.password) {
+          UserIdPrincipal(credentials.name)
+        } else {
+          null
+        }
+      }
+    }
+  }
   routing {
     // traceHTTP()
     endpoints()
@@ -108,17 +115,19 @@ fun Application.default() {
   }
 }
 
+/**
+ * Endpoints routing
+ */
 
-fun logging() {
-  //install(CallLogging)
-}
-
-fun traceHTTP() {
-  // trace { application.log.trace(it.buildText()) }
-}
-
+@Location("/example/{name}")
+data class Example(val name: String)
 
 fun Route.endpoints() {
+  authenticate {
+    get<Example> { example ->
+      call.respondText("Success, ${call.principal<UserIdPrincipal>()?.name} with ${example.name}")
+    }
+  }
   get(SMOKE) {
     call.respondText(SMOKE_TEST, ContentType.Text.Plain)
   }
@@ -128,6 +137,9 @@ fun Route.endpoints() {
   }
 }
 
+/**
+ * Static content routing
+ */
 fun Route.staticContent() {
   static {
     resource(ROOT, INDEX)
@@ -144,6 +156,11 @@ fun Route.staticContent() {
   }
 }
 
+/** THIRD PARTY INIT **/
+
+lateinit var mongo: Mongo
+lateinit var es: ES
+
 fun mongoInit(localUrl: String = MONGODB_LOCAL) {
   val uri: String = System.getenv(Configuration.MONGODB_URI) ?: localUrl
   mongo = Mongo(uri)
@@ -156,4 +173,15 @@ fun esInit(host: String = ES_HOST, port: String = ES_TEST_PORT, method: String =
   val method: String = System.getenv(Configuration.ES_METHOD_VAR) ?: method
   es = ES(host, port, method)
   es.checkInfos()
+}
+
+
+/** LOGGERS **/
+
+fun logging() {
+  //install(CallLogging)
+}
+
+fun traceHTTP() {
+  // trace { application.log.trace(it.buildText()) }
 }
