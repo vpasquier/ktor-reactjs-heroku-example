@@ -9,7 +9,7 @@
     "graphql"
   ],
   "repository": "https://github.com/vpasquier/ktor-reactjs-heroku-example",
-  "logo": "https://cdn-images-1.medium.com/max/1600/1*RdVrCbdtByvm4Z_5rUJERw.png",
+  "logo": "https://cdn-images-1.medium.com/max/1600/1*rerVYIp6LYfluQckLU5-Wg.png",
   "image": "heroku/java",
   "addons": [
     "heroku-redis", "bonsai"
