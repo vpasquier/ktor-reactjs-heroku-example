@@ -1,12 +1,10 @@
-# Sprint Review
-
-[![Build Status](https://travis-ci.org/vpasquier/sprint-review.svg?branch=master)](https://travis-ci.org/vpasquier/sprint-review)
+# Ktor Webapp Example
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/vpasquier/ktor-reactjs-heroku-example)
 
 ## Description
 
-Blog link
+Here is the [complete explanation](https://medium.com/@vladimir.pasquier/ktor-webapp-on-heroku-d69aa3af9128)
 
 ## Build
 
