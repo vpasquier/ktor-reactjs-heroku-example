@@ -1,12 +1,56 @@
 {
-  "name": "Sprint Review",
-  "description": "Sprint Review",
+  "name": "Ktor Webapp",
+  "description": "Ktor webapp example",
+  "keywords": [
+    "ktor",
+    "kotlin",
+    "mongodb",
+    "elasticsearch",
+    "graphql"
+  ],
+  "repository": "https://github.com/vpasquier/ktor-reactjs-heroku-example",
+  "logo": "https://cdn-images-1.medium.com/max/1600/1*RdVrCbdtByvm4Z_5rUJERw.png",
   "image": "heroku/java",
-  "addons": [ "heroku-postgresql" ],
-  "formation": {
-    "web": {
-      "quantity": 1,
-      "size": "free"
+  "addons": [
+    "heroku-redis", "bonsai"
+  ],
+  "formation": [
+    {
+      "web": {
+        "quantity": 1,
+        "size": "free"
+      }
+    }
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/gradle"
+    }
+  ],
+  "env": {
+    "REDIS_HOST": {
+      "description": "Redis host",
+      "value": "https://something"
+    },
+    "REDIS_PORT": {
+      "description": "The Redis port number",
+      "value": "63619"
+    },
+    "REDIS_PWD": {
+      "description": "The Redis password",
+      "generator": "secret"
+    },
+    "REDIS_URL": {
+      "description": "The Redis Url",
+      "value": "https://something"
+    },
+    "MONGODB_URI": {
+      "description": "The Mongodb Uri",
+      "value": "https://something"
+    },
+    "HEROKU_URL": {
+      "description": "The Heroku app URL for ReactJS env resolver",
+      "value": "https://something"
     }
   }
 }
